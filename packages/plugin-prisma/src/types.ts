@@ -66,6 +66,7 @@ export type ModelTypes<Model extends {}> = Model extends {
   : never;
 
 export interface PrismaModelTypes {
+  Name: string;
   Shape: {};
   Include: unknown;
   Where: {};
@@ -269,6 +270,15 @@ export type RelatedFieldOptions<
     type?: PrismaObjectRef<Model['Relations'][Field]['Types']>;
     query?: QueryForField<Types, Args, Model['Include'][Field & keyof Model['Include']]>;
   };
+
+export type VariantFieldOptions<
+  Types extends SchemaTypes,
+  Model extends PrismaModelTypes,
+  Variant extends PrismaObjectRef<Model>,
+> = Omit<
+  GiraphQLSchemaTypes.ObjectFieldOptions<Types, Model['Shape'], Variant, false, {}, Model['Shape']>,
+  'resolve' | 'type'
+>;
 
 export type RelationCountOptions<
   Types extends SchemaTypes,
